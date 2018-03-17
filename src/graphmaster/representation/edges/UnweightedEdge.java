@@ -1,10 +1,9 @@
 package graphmaster.representation.edges;
 
-public interface UnweightedEdge extends Edge {
-
-    @Override
-    default boolean isWeighted() {
-        return false;
-    }
-    
+/**
+ *
+ * @author Texhnolyze
+ */
+public interface UnweightedEdge<V> extends Edge<V> {
+//  Just a marker.
 }

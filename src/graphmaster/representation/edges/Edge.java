@@ -1,13 +1,23 @@
 package graphmaster.representation.edges;
 
-public interface Edge {
+/**
+ *
+ * @author Texhnolyze
+ */
+public interface Edge<V> {
+
+    V v1();
+    V v2();
     
-    int getEither();
+    default V other(V known) {
+        if (v1().equals(known)) 
+            return v2();
+        else if (v2().equals(known)) 
+            return v1();
+        else 
+            return null;
+    }
     
-    int getOther(int knownVertex);
-    
-    boolean isDirected();
-    
-    boolean isWeighted();
+    default boolean touches(V v) {return v1().equals(v) || v2().equals(v);}
     
 }
