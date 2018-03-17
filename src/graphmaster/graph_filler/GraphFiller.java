@@ -5,7 +5,7 @@ import graphmaster.representation.edges.impls.DirectedUnweightedEdge;
 import graphmaster.representation.edges.impls.DirectedWeightedEdge;
 import graphmaster.representation.edges.impls.UndirectedUnweightedEdge;
 import graphmaster.representation.edges.impls.UndirectedWeightedEdge;
-import graphmaster.representation.graph.AbstractBaseGraph;
+import graphmaster.representation.graph.Graph;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.util.Pair;
@@ -18,7 +18,7 @@ public final class GraphFiller {
     
     private GraphFiller() {}
     
-    public static <V, E extends Edge<V>> void fillGraph(int verticesNum, int edgesNum, AbstractBaseGraph<V, E> g, RandomVertexGenerator<V> vertexGenerator) {
+    public static <V, E extends Edge<V>> void fillGraph(int verticesNum, int edgesNum, Graph<V, E> g, RandomVertexGenerator<V> vertexGenerator) {
         int maxEdgesNum = g.directed() ? verticesNum * (verticesNum - 1) : verticesNum * (verticesNum - 1) / 2;
         if (edgesNum > maxEdgesNum)
             throw new IllegalArgumentException("Such a graph does not exist");
@@ -38,7 +38,7 @@ public final class GraphFiller {
         }
     }
     
-    private static <V, E extends Edge<V>> void fillGraphSparse(int edgesToCreate, AbstractBaseGraph<V, E> g) {
+    private static <V, E extends Edge<V>> void fillGraphSparse(int edgesToCreate, Graph<V, E> g) {
         final boolean directed = g.directed(), weighted = g.weighted();
         List<V> list = new ArrayList<>(g.vertexSet());
         int V = list.size();
@@ -51,7 +51,7 @@ public final class GraphFiller {
         } while (edgesToCreate != 0);
     }
     
-    private static <V, E extends Edge<V>> void fillGraphComplete(int maxEdgesNum, int edgesToCreate, AbstractBaseGraph<V, E> g) {
+    private static <V, E extends Edge<V>> void fillGraphComplete(int maxEdgesNum, int edgesToCreate, Graph<V, E> g) {
         final boolean directed = g.directed(), weighted = g.weighted();
         List<Pair<V, V>> edges = new ArrayList<>(maxEdgesNum - g.numEdges()); 
         if (directed) {
