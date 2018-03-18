@@ -125,12 +125,14 @@ public class DirectedSpecifics<V, E extends DirectedEdge<V>> implements Specific
 
     @Override
     public void removeAllEdges() {
+		numEdges = 0;
         for (Map.Entry<V, DirectedEdgeContainer<E>> e : vertexMap.entrySet()) 
             e.setValue(null);
     }
 
     @Override
     public void removeAllVertices() {
+		numEdges = 0;
         vertexMap.clear();
     }
 
