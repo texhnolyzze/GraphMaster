@@ -45,30 +45,4 @@ public abstract class AbstractBaseGraph<V, E extends Edge<V>> implements Graph<V
     @Override public Set<E> incomingEdgesOf(V v) {return specifics.incomingEdgesOf(v);}
     @Override public Set<E> outgoingEdgesOf(V v) {return specifics.outgoingEdgesOf(v);}
     
-    public Graph<V, E> reversedDelegate() {
-        if (!directed())
-            return null;
-        return new ReversedDelegateGraph<>(this);
-    }
-    
-    public Graph<V, E> reversed() {
-        if (!directed())
-            return null;
-        try {
-            Graph<V, E> g = getClass().getConstructor().newInstance();
-            for (V v : this.vertexSet())
-                g.addVertex(v);
-            for (V v : this.vertexSet()) {
-                for (E e : this.outgoingEdgesOf(v)) {
-                    DirectedEdge<V> de = (DirectedEdge<V>) e;
-                    g.addEdge((E) de.reverse());
-                }
-            }
-            return g;
-        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            System.err.println(ex);
-        }
-        return null;
-    }
-    
 }

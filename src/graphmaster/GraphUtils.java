@@ -1,5 +1,6 @@
 package graphmaster;
 
+import graphmaster.representation.edges.DirectedEdge;
 import graphmaster.representation.edges.Edge;
 import graphmaster.representation.edges.WeightedEdge;
 import graphmaster.representation.edges.impls.DirectedUnweightedEdge;
@@ -7,6 +8,8 @@ import graphmaster.representation.edges.impls.DirectedWeightedEdge;
 import graphmaster.representation.edges.impls.UndirectedUnweightedEdge;
 import graphmaster.representation.edges.impls.UndirectedWeightedEdge;
 import graphmaster.representation.graph.Graph;
+import graphmaster.representation.graph.ReversedGraph;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -23,8 +26,8 @@ public final class GraphUtils {
     public static <V, E extends Edge<V>> String graphToString(Graph<V, E> g) {
         final boolean weighted = g.weighted();
         StringBuilder sb = new StringBuilder();
-        sb.append("DIRECTED: ").append(g.directed());
-        sb.append("WEIGHTED: ").append(weighted);
+        sb.append("DIRECTED: ").append(Boolean.toString(g.directed()).toUpperCase());
+        sb.append("WEIGHTED: ").append(Boolean.toString(weighted).toUpperCase());
         sb.append("V: ").append(g.numVertices()).append("\n");
         sb.append("E: ").append(g.numEdges()).append("\n");
         for (V v : g.vertexSet()) {
@@ -131,6 +134,27 @@ public final class GraphUtils {
                 e = new UndirectedUnweightedEdge<>(v1, v2);
         }
         return (E) e;
+    }
+    
+    public static <V, E extends DirectedEdge<V>> Graph<V, E> reversedGraphDelegator(Graph<V, E> src) {
+        return new ReversedGraph<>(src);
+    }
+    
+    public static <V, E extends DirectedEdge<V>> Graph<V, E> reversedNewGraph(Graph<V, E> src) {
+        try {
+            Graph<V, E> g = src.getClass().getConstructor().newInstance();
+            for (V v : src.vertexSet())
+                g.addVertex(v);
+            for (V v : src.vertexSet()) {
+                for (E e : src.outgoingEdgesOf(v)) {
+                    g.addEdge((E) e.reverse());
+                }
+            }
+            return g;
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            System.err.println(ex);
+        }
+        return null;
     }
     
 }
