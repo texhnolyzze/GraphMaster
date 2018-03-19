@@ -1,11 +1,9 @@
 package graphmaster.representation.graph;
 
-import graphmaster.representation.edges.DirectedEdge;
 import graphmaster.representation.edges.Edge;
 import graphmaster.representation.graph.specifics.DirectedSpecifics;
 import graphmaster.representation.graph.specifics.Specifics;
 import graphmaster.representation.graph.specifics.UndirectedSpecifics;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 
 public abstract class AbstractBaseGraph<V, E extends Edge<V>> implements Graph<V, E> {
@@ -18,9 +16,6 @@ public abstract class AbstractBaseGraph<V, E extends Edge<V>> implements Graph<V
         else 
             specifics = new UndirectedSpecifics();
     }
-    
-    @Override public abstract boolean directed();
-    @Override public abstract boolean weighted();
     
     @Override public void removeAllEdges() {specifics.removeAllEdges();}
     @Override public void removeAllVertices() {specifics.removeAllVertices();}

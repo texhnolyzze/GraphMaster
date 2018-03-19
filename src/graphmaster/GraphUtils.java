@@ -26,26 +26,25 @@ public final class GraphUtils {
     public static <V, E extends Edge<V>> String graphToString(Graph<V, E> g) {
         final boolean weighted = g.weighted();
         StringBuilder sb = new StringBuilder();
-        sb.append("DIRECTED: ").append(Boolean.toString(g.directed()).toUpperCase());
-        sb.append("WEIGHTED: ").append(Boolean.toString(weighted).toUpperCase());
+        sb.append("DIRECTED: ").append(Boolean.toString(g.directed()).toUpperCase()).append("\n");
+        sb.append("WEIGHTED: ").append(Boolean.toString(weighted).toUpperCase()).append("\n");
         sb.append("V: ").append(g.numVertices()).append("\n");
         sb.append("E: ").append(g.numEdges()).append("\n");
         for (V v : g.vertexSet()) {
             sb.append(v).append(" -> (");
             Iterator<E> it = g.outgoingEdgesOf(v).iterator();
             for (int i = 0; i < g.incomingEdgesOf(v).size() - 1; i++) {
-                edgeToString(weighted, sb, it, v);
+                edgeToString(weighted, sb, it.next(), v);
                 sb.append(", ");
             }
             if (it.hasNext()) 
-                edgeToString(weighted, sb, it, v);
+                edgeToString(weighted, sb, it.next(), v);
             sb.append(")\n");
         }
         return sb.toString();
     }
     
-    private static <V, E extends Edge<V>> void edgeToString(final boolean weighted, StringBuilder sb, Iterator<E> it, V v) {
-        E e = it.next();
+    private static <V, E extends Edge<V>> void edgeToString(final boolean weighted, StringBuilder sb, E e, V v) {
         sb.append("(").append(e.other(v));
         if (weighted)
             sb.append(", ").append(((WeightedEdge<V>) e).weight());

@@ -15,7 +15,7 @@ public class GraphDelegator<V, E extends Edge<V>> implements Graph<V, E> {
         this.src = src;
     }
     
-    @Override public boolean directed() {return true;}
+    @Override public boolean directed() {return src.directed();}
     @Override public boolean weighted() {return src.weighted();}
 
     @Override public void removeAllEdges() {src.removeAllEdges();}
