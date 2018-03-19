@@ -1,12 +1,14 @@
-package graphmaster.graph_filler;
+package graphmaster;
 
 import graphmaster.representation.edges.Edge;
+import graphmaster.representation.edges.WeightedEdge;
 import graphmaster.representation.edges.impls.DirectedUnweightedEdge;
 import graphmaster.representation.edges.impls.DirectedWeightedEdge;
 import graphmaster.representation.edges.impls.UndirectedUnweightedEdge;
 import graphmaster.representation.edges.impls.UndirectedWeightedEdge;
 import graphmaster.representation.graph.Graph;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javafx.util.Pair;
 
@@ -14,9 +16,38 @@ import javafx.util.Pair;
  *
  * @author Texhnolyze
  */
-public final class GraphFiller {
+public final class GraphUtils {
     
-    private GraphFiller() {}
+    private GraphUtils() {}
+    
+    public static <V, E extends Edge<V>> String graphToString(Graph<V, E> g) {
+        final boolean weighted = g.weighted();
+        StringBuilder sb = new StringBuilder();
+        sb.append("DIRECTED: ").append(g.directed());
+        sb.append("WEIGHTED: ").append(weighted);
+        sb.append("V: ").append(g.numVertices()).append("\n");
+        sb.append("E: ").append(g.numEdges()).append("\n");
+        for (V v : g.vertexSet()) {
+            sb.append(v).append(" -> (");
+            Iterator<E> it = g.outgoingEdgesOf(v).iterator();
+            for (int i = 0; i < g.incomingEdgesOf(v).size() - 1; i++) {
+                edgeToString(weighted, sb, it, v);
+                sb.append(", ");
+            }
+            if (it.hasNext()) 
+                edgeToString(weighted, sb, it, v);
+            sb.append(")\n");
+        }
+        return sb.toString();
+    }
+    
+    private static <V, E extends Edge<V>> void edgeToString(final boolean weighted, StringBuilder sb, Iterator<E> it, V v) {
+        E e = it.next();
+        sb.append("(").append(e.other(v));
+        if (weighted)
+            sb.append(", ").append(((WeightedEdge<V>) e).weight());
+        sb.append(")");
+    }
     
     public static <V, E extends Edge<V>> void fillGraph(int verticesNum, int edgesNum, Graph<V, E> g, RandomVertexGenerator<V> vertexGenerator) {
         int maxEdgesNum = g.directed() ? verticesNum * (verticesNum - 1) : verticesNum * (verticesNum - 1) / 2;
@@ -25,7 +56,7 @@ public final class GraphFiller {
         int verticesToCreate = verticesNum - g.numVertices();
         int edgesToCreate = edgesNum - g.numEdges();
         while (verticesToCreate > 0) {
-            V v = vertexGenerator.generate();
+            V v = vertexGenerator.next();
             if (g.addVertex(v)) 
                 verticesToCreate--;
         }
@@ -45,7 +76,7 @@ public final class GraphFiller {
         do {
             V v1 = list.get((int) (Math.random() * V));
             V v2 = list.get((int) (Math.random() * V));
-            E e = getEdge(directed, weighted, v1, v2);
+            E e = createEdge(directed, weighted, v1, v2);
             if (g.addEdge(e))
                 edgesToCreate--;
         } while (edgesToCreate != 0);
@@ -81,12 +112,12 @@ public final class GraphFiller {
             edges.remove(edges.size() - 1);
             V v1 = edge.getKey();
             V v2 = edge.getValue();
-            g.addEdge(getEdge(directed, weighted, v1, v2));
+            g.addEdge(createEdge(directed, weighted, v1, v2));
             edgesToCreate--;
         } while (edgesToCreate > 0);
     }
     
-    private static <V, E extends Edge<V>> E getEdge(final boolean directed, final boolean weighted, V v1, V v2) {
+    private static <V, E extends Edge<V>> E createEdge(final boolean directed, final boolean weighted, V v1, V v2) {
         Edge<V> e;
         if (directed) {
             if (weighted) 

@@ -1,9 +1,9 @@
-package graphmaster.graph_filler;
+package graphmaster;
 
 /**
  *
  * @author Texhnolyze
  */
 public interface RandomVertexGenerator<V> {
-    V generate();
+    V next();
 }
