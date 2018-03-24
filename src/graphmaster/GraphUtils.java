@@ -13,6 +13,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import javafx.util.Pair;
 
 /**
@@ -32,8 +33,9 @@ public final class GraphUtils {
         sb.append("E: ").append(g.numEdges()).append("\n");
         for (V v : g.vertexSet()) {
             sb.append(v).append(" -> (");
-            Iterator<E> it = g.outgoingEdgesOf(v).iterator();
-            for (int i = 0; i < g.incomingEdgesOf(v).size() - 1; i++) {
+            Set<E> outgoing = g.outgoingEdgesOf(v);
+            Iterator<E> it = outgoing.iterator();
+            for (int i = 0; i < outgoing.size() - 1; i++) {
                 edgeToString(weighted, sb, it.next(), v);
                 sb.append(", ");
             }

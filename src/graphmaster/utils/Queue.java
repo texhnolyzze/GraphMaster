@@ -1,10 +1,12 @@
 package graphmaster.utils;
 
+import java.util.Iterator;
+
 /**
  *
  * @author Texhnolyze
  */
-public class Queue<E> {
+public class Queue<E> implements Iterable<E> {
     
     private int size;
     private Node<E> head = new Node<>(null, null);
@@ -39,8 +41,22 @@ public class Queue<E> {
     }
     
     private void assertsizepositive() {
-        if (size <= 0)
+        if (size == 0)
             throw new IllegalStateException("Queue is empty.");
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return new Iterator<E>() {
+            Node<E> curr = head;
+            @Override public boolean hasNext() {return curr != tail;}
+            @Override
+            public E next() {
+                E e = curr.elem;
+                curr = curr.next;
+                return e;
+            }
+        };
     }
     
     private static class Node<E> {
