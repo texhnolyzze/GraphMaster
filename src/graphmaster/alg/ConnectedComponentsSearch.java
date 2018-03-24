@@ -6,7 +6,9 @@ import graphmaster.representation.edges.Edge;
 import graphmaster.representation.edges.UndirectedEdge;
 import graphmaster.representation.graph.Graph;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +21,11 @@ import lib.Stack;
  */
 public abstract class ConnectedComponentsSearch<V, E extends Edge<V>> extends DepthFirstSearch<V, E>{
     
-    int numComponents;
-    Map<V, Integer> componentID;
+    private int numComponents;
+    private Map<V, Integer> componentID = new HashMap<>();
+    private Map<Integer, List<V>> components = new HashMap<>();
     
-    ConnectedComponentsSearch(Graph<V, E> graph) {
+    private ConnectedComponentsSearch(Graph<V, E> graph) {
         super(graph);
         super.dfs();
     }
@@ -31,6 +34,8 @@ public abstract class ConnectedComponentsSearch<V, E extends Edge<V>> extends De
     protected void dfs0(V v, Map<V, Iterator<E>> iterators, Set<V> visited) {
         visited.add(v);
         componentID.put(v, numComponents);
+        List<V> component = new ArrayList<>();
+        components.put(numComponents, component);
         Stack<V> stack = new Stack<>();
         stack.push(v);
         while (!stack.isEmpty()) {
@@ -42,6 +47,7 @@ public abstract class ConnectedComponentsSearch<V, E extends Edge<V>> extends De
                 if (!visited.contains(adj)) {
                     visited.add(adj);
                     stack.push(adj);
+                    component.add(adj);
                     componentID.put(adj, numComponents);
                 }
             } else
@@ -58,29 +64,28 @@ public abstract class ConnectedComponentsSearch<V, E extends Edge<V>> extends De
         return numComponents == 1;
     }
     
+    public int id(V v) {
+        return componentID.getOrDefault(v, -1);
+    }
+    
     public boolean areConnected(V v1, V v2) {
         Integer id1 = componentID.get(v1);
         if (id1 == null)
-            throw new IllegalArgumentException("No such vertex.");
+            return false;
         Integer id2 = componentID.get(v2);
         if (id2 == null)
-            throw new IllegalArgumentException("No such vertex.");
+            return false;
         return id1.intValue() == id2.intValue();
     }
     
     public Iterable<V> componentByID(int id) {
         if (id < 0 || id >= numComponents)
-            throw new IllegalArgumentException("No such component.");
-        List<V> list = new ArrayList<>();
-        for (Map.Entry<V, Integer> e : componentID.entrySet()) {
-            if (e.getValue() == id)
-                list.add(e.getKey());
-        }
-        return list;
+            return Collections.EMPTY_LIST;
+        return components.get(id);
     }
     
-    public Map<V, Integer> componentsRaw() {
-        return Collections.unmodifiableMap(componentID);
+    public Collection<List<V>> components() {
+        return components.values();
     }
     
     public static <V, E extends Edge<V>> ConnectedComponentsSearch<V, E> search(Graph<V, E> g) {
