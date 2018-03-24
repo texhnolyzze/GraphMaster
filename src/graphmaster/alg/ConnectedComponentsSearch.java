@@ -5,13 +5,13 @@ import graphmaster.representation.edges.DirectedEdge;
 import graphmaster.representation.edges.Edge;
 import graphmaster.representation.edges.UndirectedEdge;
 import graphmaster.representation.graph.Graph;
-import graphmaster.utils.Stack;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import lib.Stack;
 
 /**
  *
@@ -28,7 +28,7 @@ public abstract class ConnectedComponentsSearch<V, E extends Edge<V>> extends De
     }
     
     @Override
-    protected void dfs0(V v, Set<V> visited) {
+    protected void dfs0(V v, Map<V, Iterator<E>> iterators, Set<V> visited) {
         visited.add(v);
         componentID.put(v, numComponents);
         Stack<V> stack = new Stack<>();

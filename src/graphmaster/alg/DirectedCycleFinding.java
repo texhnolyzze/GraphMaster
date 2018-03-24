@@ -3,12 +3,12 @@ package graphmaster.alg;
 import graphmaster.representation.GraphPath;
 import graphmaster.representation.edges.DirectedEdge;
 import graphmaster.representation.graph.Graph;
-import graphmaster.utils.Stack;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import lib.Stack;
 
 /**
  *
@@ -29,7 +29,7 @@ public class DirectedCycleFinding<V, E extends DirectedEdge<V>> extends DepthFir
     }
 
     @Override
-    protected void dfs0(V v, Set<V> visited) {
+    protected void dfs0(V v, Map<V, Iterator<E>> iterators, Set<V> visited) {
         if (cycle != null)
             return;
         visited.add(v);

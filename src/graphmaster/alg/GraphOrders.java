@@ -2,11 +2,12 @@ package graphmaster.alg;
 
 import graphmaster.representation.edges.Edge;
 import graphmaster.representation.graph.Graph;
-import graphmaster.utils.Queue;
-import graphmaster.utils.Stack;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
+import lib.Queue;
+import lib.Stack;
 
 /**
  *
@@ -38,7 +39,7 @@ public final class GraphOrders<V, E extends Edge<V>> extends DepthFirstSearch<V,
     }
     
     @Override
-    protected void dfs0(V v, Set<V> visited) {
+    protected void dfs0(V v, Map<V, Iterator<E>> iterators, Set<V> visited) {
         visited.add(v);
         Stack<V> stack = new Stack<>();
         Set<V> onStack = new HashSet<>();

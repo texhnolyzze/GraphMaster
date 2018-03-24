@@ -3,13 +3,13 @@ package graphmaster.alg;
 import graphmaster.representation.GraphPath;
 import graphmaster.representation.edges.Edge;
 import graphmaster.representation.graph.Graph;
-import graphmaster.utils.Queue;
-import graphmaster.utils.Stack;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import lib.Queue;
+import lib.Stack;
 
 /**
  *
