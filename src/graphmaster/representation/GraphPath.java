@@ -59,13 +59,12 @@ public class GraphPath<V, E extends Edge<V>> {
     public Iterable<V> vertices() {
         V curr = source;
         List<V> vertices = new ArrayList<>();
-        vertices.add(curr);
         Iterator<E> it = edges.iterator();
         while (it.hasNext()) {
-            E e = it.next();
-            curr = e.other(curr);
             vertices.add(curr);
+            curr = it.next().other(curr);
         }
+        vertices.add(curr);
         return vertices;
     }
     

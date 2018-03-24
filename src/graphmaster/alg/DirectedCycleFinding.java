@@ -51,9 +51,8 @@ public class DirectedCycleFinding<V, E extends DirectedEdge<V>> extends DepthFir
                 } else {
                     if (onStack.contains(adj)) {
                         Stack<E> edges = new Stack<>();
+                        V vTemp;
                         E eTemp = e;
-                        V vTemp = adj;
-                        edges.push(eTemp);
                         for (;;) {
                             edges.push(eTemp);
                             vTemp = eTemp.source();
@@ -62,6 +61,7 @@ public class DirectedCycleFinding<V, E extends DirectedEdge<V>> extends DepthFir
                             eTemp = edgeTo.get(vTemp);
                         }
                         cycle = new GraphPath<>(adj, adj, edges);
+                        return;
                     }
                 }
             } else 

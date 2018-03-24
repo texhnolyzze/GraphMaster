@@ -19,12 +19,12 @@ public abstract class DepthFirstSearch<V, E extends Edge<V>> {
     
     protected DepthFirstSearch(Graph<V, E> graph) {
         this.graph = graph;
-        this.iterators = new HashMap<>(graph.numVertices());
-        for (V v : graph.vertexSet()) 
-            iterators.put(v, graph.outgoingEdgesOf(v).iterator());   
     }
     
     protected final void dfs() {
+        iterators = new HashMap<>(graph.numVertices());
+        for (V v : graph.vertexSet()) 
+            iterators.put(v, graph.outgoingEdgesOf(v).iterator());   
         Set<V> visited = new HashSet<>();
         for (V v : this.order()) {
             if (!visited.contains(v)) 
