@@ -14,7 +14,7 @@ import java.util.Set;
  */
 public abstract class DepthFirstSearch<V, E extends Edge<V>> {
     
-    protected final Graph<V, E> graph;
+    private final Graph<V, E> graph;
     
     protected DepthFirstSearch(Graph<V, E> graph) {
         this.graph = graph;
@@ -25,13 +25,13 @@ public abstract class DepthFirstSearch<V, E extends Edge<V>> {
         for (V v : graph.vertexSet()) 
             iterators.put(v, graph.outgoingEdgesOf(v).iterator());   
         Set<V> visited = new HashSet<>();
-        for (V v : this.order()) {
+        for (V v : this.order(graph)) {
             if (!visited.contains(v)) 
-               dfs0(v, iterators, visited);
+               dfs0(graph, v, iterators, visited);
         }
     }
     
-    protected abstract Iterable<V> order();
-    protected abstract void dfs0(V v, Map<V, Iterator<E>> iterators, Set<V> visited);
+    protected abstract Iterable<V> order(Graph<V, E> graph);
+    protected abstract void dfs0(Graph<V, E> graph, V v, Map<V, Iterator<E>> iterators, Set<V> visited);
     
 }

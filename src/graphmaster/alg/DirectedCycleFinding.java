@@ -24,12 +24,12 @@ public class DirectedCycleFinding<V, E extends DirectedEdge<V>> extends DepthFir
     }
 
     @Override
-    protected Iterable<V> order() {
+    protected Iterable<V> order(Graph<V, E> graph) {
         return graph.vertexSet();
     }
 
     @Override
-    protected void dfs0(V v, Map<V, Iterator<E>> iterators, Set<V> visited) {
+    protected void dfs0(Graph<V, E> graph, V v, Map<V, Iterator<E>> iterators, Set<V> visited) {
         if (cycle != null)
             return;
         visited.add(v);

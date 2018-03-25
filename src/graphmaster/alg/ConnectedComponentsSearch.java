@@ -31,7 +31,7 @@ public abstract class ConnectedComponentsSearch<V, E extends Edge<V>> extends De
     }
     
     @Override
-    protected void dfs0(V v, Map<V, Iterator<E>> iterators, Set<V> visited) {
+    protected void dfs0(Graph<V, E> graph, V v, Map<V, Iterator<E>> iterators, Set<V> visited) {
         visited.add(v);
         componentID.put(v, numComponents);
         List<V> component = new ArrayList<>();
@@ -97,12 +97,12 @@ public abstract class ConnectedComponentsSearch<V, E extends Edge<V>> extends De
     
     private static class UndirectedConnectedComponentsSearch<V, E extends UndirectedEdge<V>> extends ConnectedComponentsSearch<V, E> {
         UndirectedConnectedComponentsSearch(Graph<V, E> graph) {super(graph);}
-        @Override protected Iterable<V> order() {return graph.vertexSet();}
+        @Override protected Iterable<V> order(Graph<V, E> graph) {return graph.vertexSet();}
     }
     
     private static class DirectedConnectedComponentsSearch<V, E extends DirectedEdge<V>> extends ConnectedComponentsSearch<V, E> {
         DirectedConnectedComponentsSearch(Graph<V, E> graph) {super(graph);}
-        @Override protected Iterable<V> order() {return new GraphOrders<>(GraphUtils.reversedGraphDelegator(graph), false, false, true).reversePostOrder();}
+        @Override protected Iterable<V> order(Graph<V, E> graph) {return new GraphOrders<>(GraphUtils.reversedGraphDelegator(graph), false, false, true).reversePostOrder();}
     }
     
 }

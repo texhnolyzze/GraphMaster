@@ -59,6 +59,4 @@ public class KruskalsAlgorithm<V, E extends WeightedEdge<V> & UndirectedEdge<V>>
         spanningTrees.put(spanningTrees.size(), tree);
     }
     
-    
-    
 }

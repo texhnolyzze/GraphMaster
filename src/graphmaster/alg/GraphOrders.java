@@ -34,12 +34,12 @@ public final class GraphOrders<V, E extends Edge<V>> extends DepthFirstSearch<V,
     }
     
     @Override
-    protected Iterable<V> order() {
+    protected Iterable<V> order(Graph<V, E> graph) {
         return graph.vertexSet();
     }
     
     @Override
-    protected void dfs0(V v, Map<V, Iterator<E>> iterators, Set<V> visited) {
+    protected void dfs0(Graph<V, E> graph, V v, Map<V, Iterator<E>> iterators, Set<V> visited) {
         visited.add(v);
         Stack<V> stack = new Stack<>();
         Set<V> onStack = new HashSet<>();
