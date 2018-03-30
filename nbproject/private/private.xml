@@ -3,9 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Texhnolyze/Documents/NetBeansProjects/GraphMaster/src/graphmaster/alg/ConnectedComponentsSearch.java</file>
+            <file>file:/C:/Users/Texhnolyze/Documents/NetBeansProjects/GraphMaster/src/graphmaster/alg/AStar.java</file>
             <file>file:/C:/Users/Texhnolyze/Documents/NetBeansProjects/GraphMaster/src/graphmaster/alg/PrimsAlgorithm.java</file>
-            <file>file:/C:/Users/Texhnolyze/Documents/NetBeansProjects/GraphMaster/src/graphmaster/alg/MinimalSpanningTreeSearch.java</file>
+            <file>file:/C:/Users/Texhnolyze/Documents/NetBeansProjects/GraphMaster/src/graphmaster/alg/DijkstrasAlgorithm.java</file>
             <file>file:/C:/Users/Texhnolyze/Documents/NetBeansProjects/GraphMaster/src/graphmaster/alg/KruskalsAlgorithm.java</file>
         </group>
     </open-files>

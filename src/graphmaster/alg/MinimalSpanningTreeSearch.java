@@ -22,7 +22,7 @@ public abstract class MinimalSpanningTreeSearch<V, E extends WeightedEdge<V> & U
     private final List<Double> weights = new ArrayList<>();
     private final Map<Integer, Iterable<E>> spanningTrees = new HashMap<>();
     
-    public MinimalSpanningTreeSearch(Graph<V, E> graph) {
+    protected MinimalSpanningTreeSearch(Graph<V, E> graph) {
         this.graph = graph;
     }
     

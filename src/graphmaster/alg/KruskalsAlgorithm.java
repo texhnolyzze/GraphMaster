@@ -25,12 +25,7 @@ public class KruskalsAlgorithm<V, E extends WeightedEdge<V> & UndirectedEdge<V>>
     protected void buildTree(Graph<V, E> graph, List<V> component, List<Double> weights, Map<Integer, Iterable<E>> spanningTrees) {
         UFS<V> ufs = new UFS<>();
         PriorityQueue<E> pq = new PriorityQueue<>((E e1, E e2) -> {
-            if (e1.weight() < e2.weight())
-                return 1;
-            else if (e1.weight() > e2.weight())
-                return -1;
-            else
-                return 0;
+            return -Double.compare(e1.weight(), e2.weight());
         });
         Set<V> viewed = new HashSet<>();
         for (V v : component) {

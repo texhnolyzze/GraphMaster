@@ -14,11 +14,11 @@ import lib.Stack;
  *
  * @author Texhnolyze
  */
-public class DirectedCycleFinding<V, E extends DirectedEdge<V>> extends DepthFirstSearch<V, E> {
+public class DirectedCycleSearch<V, E extends DirectedEdge<V>> extends DepthFirstSearch<V, E> {
 
     private GraphPath<V, E> cycle;
     
-    public DirectedCycleFinding(Graph<V, E> graph) {
+    public DirectedCycleSearch(Graph<V, E> graph) {
         super(graph);
         super.dfs();
     }
