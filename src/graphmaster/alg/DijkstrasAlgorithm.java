@@ -1,5 +1,6 @@
 package graphmaster.alg;
 
+import graphmaster.representation.GraphPath;
 import graphmaster.representation.edges.WeightedEdge;
 import graphmaster.representation.graph.Graph;
 import java.util.HashMap;

@@ -21,16 +21,14 @@ public class PrimsAlgorithm<V, E extends WeightedEdge<V> & UndirectedEdge<V>> ex
     }
     
     @Override
-    protected void buildTree(Graph<V, E> graph, List<V> component, List<Double> weights, Map<Integer, Iterable<E>> spanningTrees) {
+    protected void buildTree(Graph<V, E> graph, List<V> component, List<Double> weights, List<Iterable<E>> spanningTrees) {
         Set<V> tree = new HashSet<>();
-        Map<V, Double> dist = new HashMap<>(component.size());
         Map<V, E> edgeTo = new HashMap<>(component.size() - 1);
         IndexedMinPriorityQueue<V> pq = new IndexedMinPriorityQueue<>((V v1, V v2) -> {
-            return Double.compare(dist.get(v1), dist.get(v2));
+            return Double.compare(edgeTo.get(v1).weight(), edgeTo.get(v2).weight());
         });
         V init = component.get(0);
         pq.add(init);
-        dist.put(init, 0.0);
         while (!pq.isEmpty()) {
             V v = pq.pop();
             tree.add(v);
@@ -38,13 +36,15 @@ public class PrimsAlgorithm<V, E extends WeightedEdge<V> & UndirectedEdge<V>> ex
                 V adj = e.other(v);
                 if (tree.contains(adj))
                     continue;
-                if (e.weight() < dist.getOrDefault(adj, Double.POSITIVE_INFINITY)) {
+                E edge = edgeTo.get(adj);
+                if (edge == null) {
                     edgeTo.put(adj, e);
-                    dist.put(adj, e.weight());
-                    if (pq.contains(adj))
+                    pq.add(adj);
+                } else {
+                    if (e.weight() < edge.weight()) {
+                        edgeTo.put(adj, e);
                         pq.priorityChanged(adj);
-                    else
-                        pq.add(adj);
+                    }
                 }
             }
         }
@@ -52,7 +52,7 @@ public class PrimsAlgorithm<V, E extends WeightedEdge<V> & UndirectedEdge<V>> ex
         for (E e : edgeTo.values())
             weight += e.weight();
         weights.add(weight);
-        spanningTrees.put(spanningTrees.size(), edgeTo.values());
+        spanningTrees.add(edgeTo.values());
     }
     
 }

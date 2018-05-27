@@ -11,7 +11,7 @@ import java.util.function.Function;
  *
  * @author Texhnolyze
  */
-public class AcyclicGraphPathSearch<V, E extends DirectedEdge<V> & WeightedEdge<V>> extends PathSearch<V, E> {
+public class AcyclicGraphPathSearch<V, E extends WeightedEdge<V> & DirectedEdge<V>> extends PathSearch<V, E> {
     
     public static enum SearchMode {
         SHORTEST_PATH_SEARCH((WeightedEdge e) -> {return e.weight();}), 
@@ -23,8 +23,12 @@ public class AcyclicGraphPathSearch<V, E extends DirectedEdge<V> & WeightedEdge<
     private GraphOrders<V, E> orders;
     private final SearchMode mode;
     
-    public AcyclicGraphPathSearch(Graph<V, E> graph, SearchMode mode) {
-        super(graph, null, null);
+    public AcyclicGraphPathSearch(Graph<V, E> graph, V source, SearchMode mode) {
+        this(graph, source, null, mode);
+    }
+    
+    public AcyclicGraphPathSearch(Graph<V, E> graph, V source, V dest, SearchMode mode) {
+        super(graph, source, dest);
         this.mode = mode;
         orders = new GraphOrders<>(graph, false, false, true);
         if (orders.hasCycle())
@@ -38,12 +42,14 @@ public class AcyclicGraphPathSearch<V, E extends DirectedEdge<V> & WeightedEdge<
         Map<V, Double> dist = new HashMap<>();
         for (V v : graph.vertexSet())
             dist.put(v, Double.POSITIVE_INFINITY);
+        dist.put(source, 0.0);
         for (V v : orders.topologicalOrder()) {
+            if (v == dest)
+                break;
             for (E e : graph.outgoingEdgesOf(v)) {
                 V adj = e.dest();
-                WeightedEdge<V> we = (WeightedEdge<V>) e;
                 double old = dist.get(adj);
-                double curr = dist.get(v) + mode.w.apply(we);
+                double curr = dist.get(v) + mode.w.apply(e);
                 if (old > curr) {
                     edgeTo.put(adj, e);
                     dist.put(adj, curr);

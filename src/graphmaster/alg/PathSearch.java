@@ -22,7 +22,7 @@ public abstract class PathSearch<V, E extends Edge<V>> {
     }
     
     protected PathSearch(Graph<V, E> graph, V source, V dest) {
-        if (source != null && !graph.containsVertex(source))
+        if (!graph.containsVertex(source))
             throw new IllegalArgumentException("Source vertex must be in graph.");
         if (dest != null && !graph.containsVertex(dest))
             throw new IllegalArgumentException("Destination vertex must be in graph.");

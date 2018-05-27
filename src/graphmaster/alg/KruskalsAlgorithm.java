@@ -6,7 +6,6 @@ import graphmaster.representation.graph.Graph;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 import lib.UFS;
@@ -22,14 +21,15 @@ public class KruskalsAlgorithm<V, E extends WeightedEdge<V> & UndirectedEdge<V>>
     }
 
     @Override
-    protected void buildTree(Graph<V, E> graph, List<V> component, List<Double> weights, Map<Integer, Iterable<E>> spanningTrees) {
+    protected void buildTree(Graph<V, E> graph, List<V> component, List<Double> weights, List<Iterable<E>> spanningTrees) {
         UFS<V> ufs = new UFS<>();
         PriorityQueue<E> pq = new PriorityQueue<>((E e1, E e2) -> {
-            return -Double.compare(e1.weight(), e2.weight());
+            return Double.compare(e1.weight(), e2.weight());
         });
         Set<V> viewed = new HashSet<>();
         for (V v : component) {
             viewed.add(v);
+            ufs.makeSet(v);
             for (E e : graph.outgoingEdgesOf(v)) {
                 V adj = e.other(v);
                 if (viewed.contains(adj))
@@ -37,7 +37,7 @@ public class KruskalsAlgorithm<V, E extends WeightedEdge<V> & UndirectedEdge<V>>
                 pq.add(e);
             }
         }
-        viewed = null;
+        viewed.clear();
         double weight = 0.0;
         List<E> tree = new ArrayList<>();
         while (tree.size() < component.size() - 1) {
@@ -51,7 +51,7 @@ public class KruskalsAlgorithm<V, E extends WeightedEdge<V> & UndirectedEdge<V>>
             weight += e.weight();
         }
         weights.add(weight);
-        spanningTrees.put(spanningTrees.size(), tree);
+        spanningTrees.add(tree);
     }
     
 }
