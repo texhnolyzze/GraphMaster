@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import lib.SetBinaryOperation;
+import lib.CollectionBinaryOperation;
 import lib.Stack;
 
 /**
@@ -33,10 +33,8 @@ public final class NegativeCycleSearch<V, E extends WeightedEdge<V>> {
         Map<V, Double> distTo = new HashMap<>();
         if (from != null) {
             // inefficient, just wanted to show an example of use
-            for (V v : SetBinaryOperation.DIFFERENCE.delegate(graph.vertexSet(), new HashSet<>(Arrays.asList(from)))) {
+            for (V v : CollectionBinaryOperation.DIFFERENCE.delegate(graph.vertexSet(), Arrays.asList(from))) 
                 distTo.put(v, Double.POSITIVE_INFINITY);
-                System.out.println(v);
-            }
             for (V v : from)
                 distTo.put(v, 0.0);
         } else {
