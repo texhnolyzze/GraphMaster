@@ -52,5 +52,10 @@ public final class DirectedWeightedEdge<V> implements DirectedEdge<V>, WeightedE
             return false;
         return this.dest.equals(other.dest);
     }
+
+    @Override
+    public String toString() {
+        return source + " -> " + dest + ", w=" + weight;
+    }
     
 }

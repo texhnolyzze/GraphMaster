@@ -26,18 +26,15 @@ public class KruskalsAlgorithm<V, E extends WeightedEdge<V> & UndirectedEdge<V>>
         PriorityQueue<E> pq = new PriorityQueue<>((E e1, E e2) -> {
             return Double.compare(e1.weight(), e2.weight());
         });
-        Set<V> viewed = new HashSet<>();
         for (V v : component) {
-            viewed.add(v);
             ufs.makeSet(v);
             for (E e : graph.outgoingEdgesOf(v)) {
                 V adj = e.other(v);
-                if (viewed.contains(adj))
+                if (ufs.contains(adj))
                     continue;
                 pq.add(e);
             }
         }
-        viewed.clear();
         double weight = 0.0;
         List<E> tree = new ArrayList<>();
         while (tree.size() < component.size() - 1) {

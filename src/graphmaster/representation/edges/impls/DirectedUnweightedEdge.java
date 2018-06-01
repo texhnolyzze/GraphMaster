@@ -44,7 +44,10 @@ public final class DirectedUnweightedEdge<V> implements DirectedEdge<V>, Unweigh
             return false;
         return this.dest.equals(other.dest);
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return source + " -> " + dest;
+    }
     
 }

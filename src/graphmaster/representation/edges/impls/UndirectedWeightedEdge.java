@@ -50,7 +50,10 @@ public final class UndirectedWeightedEdge<V> implements UndirectedEdge<V>, Weigh
             return false;
         return this.v2.equals(other.v2);
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return v1 + " <-> " + v2 + ", w=" + weight;
+    }
     
 }

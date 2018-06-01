@@ -42,5 +42,10 @@ public final class UndirectedUnweightedEdge<V> implements UndirectedEdge<V>, Unw
             return false;
         return this.v2.equals(other.v2);
     }
+
+    @Override
+    public String toString() {
+        return v1 + " <-> " + v2;
+    }
     
 }

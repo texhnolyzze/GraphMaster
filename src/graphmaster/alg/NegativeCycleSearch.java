@@ -3,8 +3,11 @@ package graphmaster.alg;
 import graphmaster.representation.GraphPath;
 import graphmaster.representation.edges.WeightedEdge;
 import graphmaster.representation.graph.Graph;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import lib.SetBinaryOperation;
 import lib.Stack;
 
 /**
@@ -17,15 +20,29 @@ public final class NegativeCycleSearch<V, E extends WeightedEdge<V>> {
     private GraphPath<V, E> negativeCycle;
     
     public NegativeCycleSearch(Graph<V, E> graph) {
-        this.graph = graph;
-        search();
+        this(graph, null);
     }
     
-    private void search() {
+    public NegativeCycleSearch(Graph<V, E> graph, V...from) {
+        this.graph = graph;
+        search(from);
+    }
+    
+    private void search(V...from) {
         Map<V, E> edgeTo = new HashMap<>();
         Map<V, Double> distTo = new HashMap<>();
-        for (V v : graph.vertexSet())
-            distTo.put(v, 0.0);
+        if (from != null) {
+            // inefficient, just wanted to show an example of use
+            for (V v : SetBinaryOperation.DIFFERENCE.delegate(graph.vertexSet(), new HashSet<>(Arrays.asList(from)))) {
+                distTo.put(v, Double.POSITIVE_INFINITY);
+                System.out.println(v);
+            }
+            for (V v : from)
+                distTo.put(v, 0.0);
+        } else {
+            for (V v : graph.vertexSet())
+                distTo.put(v, 0.0);
+        }
         for (int i = 0; i < graph.numVertices() - 1; i++) {
             boolean b = false;
             for (V v : graph.vertexSet()) {

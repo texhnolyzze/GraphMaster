@@ -1,5 +1,6 @@
 package graphmaster.representation.graph;
 
+import graphmaster.GraphUtils;
 import graphmaster.representation.edges.Edge;
 import graphmaster.representation.graph.specifics.DirectedSpecifics;
 import graphmaster.representation.graph.specifics.Specifics;
@@ -39,5 +40,10 @@ public abstract class AbstractBaseGraph<V, E extends Edge<V>> implements Graph<V
     
     @Override public Set<E> incomingEdgesOf(V v) {return specifics.incomingEdgesOf(v);}
     @Override public Set<E> outgoingEdgesOf(V v) {return specifics.outgoingEdgesOf(v);}
+
+    @Override
+    public String toString() {
+        return GraphUtils.graphToString(this);
+    }
     
 }
