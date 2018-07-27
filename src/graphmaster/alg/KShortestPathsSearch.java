@@ -101,7 +101,8 @@ public final class KShortestPathsSearch<V, E extends Edge<V>> {
             g.removeEdge(edgeToRemove);
             removedEdges.add(edgeToRemove);
         }
-        
+        for (E removedEdge : removedEdges) 
+            g.addEdge(removedEdge);
     }
     
 }
